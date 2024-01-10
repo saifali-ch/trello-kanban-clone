@@ -189,6 +189,14 @@ ol, ul, li {
     gap: 8px;
 }
 
+.flex {
+    display: flex;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
 .actions {
     display: flex;
     align-items: center;
@@ -276,6 +284,7 @@ ol, ul, li {
 
     width: 275px;
     padding: 10px;
+    height: max-content;
 
     &__header {
         display: flex;

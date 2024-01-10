@@ -1,6 +1,8 @@
 <template>
     <div class="board">
-        <Column v-for="column in columns" :key="column.id" :column="column"/>
+        <draggable v-model="columns" v-bind="dragOptions" @end="onDrop" class="flex gap-4">
+            <Column v-for="column in columns" :key="column.id" :column="column"/>
+        </draggable>
         <div class="column" v-show="formVisible">
             <textarea v-model="newColumnTitle" ref="columnTitleInput"
                       @keydown="handleKeydown"
@@ -32,11 +34,14 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable';
 import Column from './Column.vue';
 import Modal from './Modal.vue';
+import Card from "./Card.vue";
 
 export default {
     components: {
+        draggable, Card,
         Column,
         Modal,
     },
@@ -44,7 +49,11 @@ export default {
         return {
             columns: [],
             formVisible: false,
-            newColumnTitle: ''
+            newColumnTitle: '',
+            dragOptions: {
+                animation: 500,
+                group: 'columns',
+            },
         };
     },
     created() {
@@ -127,6 +136,19 @@ export default {
                         console.error('Error deleting column:', error);
                     });
             }
+        },
+
+        onDrop() {
+            const sortedColumnIds = this.columns.map(col => col.id);
+            axios.put(`/api/reorder-column`, {
+                column_ids: sortedColumnIds,
+            })
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error('Error moving card:', error);
+                });
         },
 
         moveCard(event) {

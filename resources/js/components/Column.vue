@@ -55,7 +55,7 @@ export default {
             newCardTitle: '',
             dragOptions: {
                 animation: 150,
-                group: 'columns',
+                group: 'cards',
             },
             columnId: this.column.id
         };

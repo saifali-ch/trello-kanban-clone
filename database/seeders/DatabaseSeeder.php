@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // Create dummy columns
-        Column::create(['title' => 'To Do']);
-        Column::create(['title' => 'Doing']);
-        Column::create(['title' => 'Done']);
+        Column::create(['title' => 'To Do', 'order' => 0]);
+        Column::create(['title' => 'Doing', 'order' => 1]);
+        Column::create(['title' => 'Done', 'order' => 2]);
 
         Card::factory(10)->create();
     }

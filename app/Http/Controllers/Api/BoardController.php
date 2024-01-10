@@ -10,7 +10,7 @@ use Spatie\DbDumper\Databases\MySql;
 class BoardController extends Controller
 {
     public function getBoardData() {
-        $columns = Column::with('cards')->get();
+        $columns = Column::with('cards')->orderBy('order')->get();
         return response()->json(['columns' => $columns]);
     }
 
@@ -36,5 +36,16 @@ class BoardController extends Controller
             ->setPassword(config('database.connections.mysql.password'))
             ->dumpToFile('board.sql');
         return response()->download(public_path('board.sql'));
+    }
+
+    protected function reorderColumn(Request $request) {
+        $columnIds = $request->input('column_ids');
+        foreach ($columnIds as $index => $columnId) {
+            $column = Column::find($columnId);
+            $column->order = $index;
+            $column->save();
+        }
+
+        return response()->json(['message' => 'Cards reordered successfully!']);
     }
 }

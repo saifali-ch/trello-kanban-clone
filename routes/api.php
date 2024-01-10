@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(BoardController::class)->group(function () {
     Route::get('get-board-data', 'getBoardData');
     Route::post('add-column', 'addColumn');
+    Route::put('reorder-column', 'reorderColumn');
     Route::delete('delete-column/{column}', 'deleteColumn');
 });
 
