@@ -56,7 +56,7 @@ class CardController extends Controller
         $card = $column->cards()->create([
             'title' => $request->input('title'),
             'description' => $request->input('description', ''),
-            'order' => $column->cards()->count() + 1,
+            'order' => $column->cards()->withTrashed()->count(),
         ]);
 
         return response()->json(['message' => 'Card added successfully', 'card' => $card]);
