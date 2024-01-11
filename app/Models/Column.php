@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Column extends Model
 {
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'order'];
 
     public function cards() {
         return $this->hasMany(Card::class)->orderBy('order');

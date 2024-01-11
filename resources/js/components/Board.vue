@@ -65,7 +65,7 @@ export default {
     methods: {
         fetchBoardData() {
             // Get the data from backend
-            axios.get('/api/get-board-data')
+            axios.get('/api/columns')
                 .then(response => {
                     this.columns = response.data.columns;
                 })
@@ -104,7 +104,7 @@ export default {
             }
 
             // Send request to backend to add the column
-            axios.post('/api/add-column', {title: this.newColumnTitle})
+            axios.post('/api/columns/store', {title: this.newColumnTitle})
                 .then(response => {
                     const newColumn = {
                         id: response.data.column.id,
@@ -128,7 +128,7 @@ export default {
                 this.columns = this.columns.filter(column => column.id !== columnId);
 
                 // Send request to backend to delete the column
-                axios.delete(`/api/delete-column/${columnId}`)
+                axios.delete(`/api/columns/${columnId}/delete`)
                     .then(response => {
                         console.log('Column deleted successfully:', response.data);
                     })
@@ -140,7 +140,7 @@ export default {
 
         onDrop() {
             const sortedColumnIds = this.columns.map(col => col.id);
-            axios.put(`/api/reorder-column`, {
+            axios.put(`/api/columns/reorder`, {
                 column_ids: sortedColumnIds,
             })
                 .then(response => {
